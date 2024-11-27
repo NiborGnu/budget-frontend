@@ -67,6 +67,7 @@ const LoginPage = ({ setTriggerAction }) => {
             value={credentials.username}
             onChange={handleChange}
             placeholder="Username"
+            autoComplete="username"
             required
             disabled={isSubmitting}
           />
@@ -78,6 +79,7 @@ const LoginPage = ({ setTriggerAction }) => {
             value={credentials.password}
             onChange={handleChange}
             placeholder="Password"
+            autoComplete="current-password"
             required
             disabled={isSubmitting}
           />
