@@ -43,7 +43,6 @@ const RegisterPage = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="username">Username</label>
           <input
             type="text"
             id="username"
@@ -56,7 +55,6 @@ const RegisterPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -69,7 +67,6 @@ const RegisterPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="first_name">First Name</label>
           <input
             type="text"
             id="first_name"
@@ -81,7 +78,6 @@ const RegisterPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="last_name">Last Name</label>
           <input
             type="text"
             id="last_name"
