@@ -1,0 +1,73 @@
+/* Custom styles for the sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #343a40;
+  color: white;
+  padding-top: 20px;
+  z-index: 9999;
+  transition: 0.3s ease; /* Smooth transition when the sidebar is toggled */
+}
+
+.sidebar .navbar-nav {
+  display: block; /* Ensures navbar items are stacked vertically */
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.sidebar .navbar-nav .nav-item {
+  margin: 10px 0;
+}
+
+.sidebar .navbar-nav .nav-link {
+  color: Black;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+.sidebar .navbar-nav .nav-link:hover {
+  background-color: #495057;
+  border-radius: 4px;
+}
+
+/* Ensure content is pushed to the right of the sidebar for larger screens */
+.content-wrapper {
+  margin-left: 250px; /* Adjust this to match sidebar width */
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+/* Mobile and small tablet screens */
+@media (max-width: 768px) {
+  /* Sidebar becomes a top navbar */
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Ensure the content is not hidden behind the navbar */
+  .content-wrapper {
+    margin-left: 0;
+  }
+
+  /* Ensure the links are displayed properly in mobile */
+  .navbar-nav .nav-item {
+    text-align: center;
+  }
+}
+
+/* Adjust the mobile navbar toggler and links */
+@media (max-width: 576px) {
+  .navbar-nav .nav-item {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 10px 15px;
+  }
+}
