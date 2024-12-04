@@ -1,5 +1,6 @@
 import React from "react";
 import { useUserProfile } from "../hooks/useUserProfile";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 const UserProfile = () => {
   const { data, isLoading, error } = useUserProfile();
@@ -7,8 +8,8 @@ const UserProfile = () => {
   if (isLoading) {
     return (
       <div>
-        <p>Loading...</p>
-        {/* Optionally, include a spinner or other visual indicator */}
+        Loading Profile...
+        <LoadingIndicator />
       </div>
     );
   }
