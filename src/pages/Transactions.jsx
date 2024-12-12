@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Table, Alert, Modal } from "react-bootstrap";
 import { useUserData } from "../hooks/useUserData";
+import { useAlert } from "../hooks/useAlert";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TransactionForm from "../components/TransactionForm";
 import apiClient from "../api/apiClient";
@@ -13,21 +14,18 @@ function Transactions() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const { alert, showAlert, hideAlert } = useAlert();
 
-  // Using useUserData hook to fetch transactions and categories
   const {
     data: transactions,
     isLoading: isTransactionsLoading,
     refetch: refetchTransactions,
-  } = useUserData({
-    endpoint: "/transactions/",
-  });
+  } = useUserData({ endpoint: "/transactions/" });
 
   const { data: categories, isLoading: isCategoriesLoading } = useUserData({
     endpoint: "/categories/",
   });
 
-  // Handle errors and loading states
   useEffect(() => {
     if (isTransactionsLoading || isCategoriesLoading) {
       setLoading(true);
@@ -57,13 +55,10 @@ function Transactions() {
       refetchTransactions();
       setShowDeleteModal(false);
       setTransactionToDelete(null);
+      showAlert("Transaction deleted successfully.", "success");
     } catch (err) {
       console.error("Failed to delete transaction", err);
     }
-  };
-
-  const handleShowTransaction = (transaction) => {
-    setSelectedTransaction(transaction);
   };
 
   if (loading) {
@@ -74,7 +69,6 @@ function Transactions() {
     );
   }
 
-  // Separate the transactions into Expenses and Incomes
   const expenses = transactions.filter(
     (transaction) => transaction.transaction_type === "expense"
   );
@@ -85,6 +79,19 @@ function Transactions() {
   return (
     <Container>
       <h1>Transactions</h1>
+
+      {/* Alert Component */}
+      {alert.show && (
+        <Alert
+          variant={alert.variant}
+          onClose={hideAlert}
+          dismissible
+          className="mb-3"
+        >
+          {alert.message}
+        </Alert>
+      )}
+
       <Button className="mb-3" onClick={handleAddTransaction}>
         Add New Transaction
       </Button>
@@ -137,7 +144,7 @@ function Transactions() {
                       <Button
                         variant="info"
                         size="sm"
-                        onClick={() => handleShowTransaction(transaction)}
+                        onClick={() => setSelectedTransaction(transaction)}
                       >
                         Show
                       </Button>{" "}
@@ -203,8 +210,7 @@ function Transactions() {
                       <Button
                         variant="info"
                         size="sm"
-                        className="d-block d-md-none"
-                        onClick={() => handleShowTransaction(transaction)}
+                        onClick={() => setSelectedTransaction(transaction)}
                       >
                         Show
                       </Button>{" "}
@@ -237,7 +243,7 @@ function Transactions() {
         onHide={() => setShowModal(false)}
         onAddTransaction={async (formData) => {
           if (!formData.category_id) {
-            alert("Category is required.");
+            showAlert("Category is required.", "danger");
             return;
           }
 
@@ -252,18 +258,22 @@ function Transactions() {
                 `/transactions/${editingTransaction.id}/`,
                 newTransaction
               );
+              showAlert("Transaction updated successfully.", "success");
             } else {
               await apiClient.post("/transactions/", newTransaction);
+              showAlert("Transaction created successfully.", "success");
             }
             refetchTransactions();
             setShowModal(false);
           } catch (err) {
             console.error("Error saving transaction", err);
+            showAlert("Error saving transaction.", "danger");
           }
         }}
         categories={categories}
         transactionData={editingTransaction}
         fetchTransactions={refetchTransactions}
+        showAlert={showAlert}
       />
 
       {/* Delete Confirmation Modal */}
