@@ -63,6 +63,7 @@ function BudgetsForm({ show, onHide, onSave, budgetData, categories }) {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              autoComplete="off"
               required
             />
           </Form.Group>
@@ -74,6 +75,7 @@ function BudgetsForm({ show, onHide, onSave, budgetData, categories }) {
               name="amount"
               value={formData.amount}
               onChange={handleChange}
+              autoComplete="off"
               required
             />
           </Form.Group>
@@ -83,6 +85,7 @@ function BudgetsForm({ show, onHide, onSave, budgetData, categories }) {
               name="category_id"
               value={formData.category_id}
               onChange={handleChange}
+              autoComplete="off"
             >
               <option value="">Select a category</option>
               {categories.map((category) => (
