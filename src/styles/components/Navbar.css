@@ -1,19 +1,19 @@
-/* Custom styles for the sidebar */
+/* Sidebar styles */
 .sidebar {
   width: 250px;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #343a40;
-  color: white;
+  background-color: #f8f9fa;
+  color: #212529;
   padding-top: 20px;
   z-index: 9999;
-  transition: 0.3s ease; /* Smooth transition when the sidebar is toggled */
+  transition: 0.3s ease;
 }
 
 .sidebar .navbar-nav {
-  display: block; /* Ensures navbar items are stacked vertically */
+  display: block;
   padding-left: 0;
   margin-bottom: 0;
 }
@@ -23,44 +23,64 @@
 }
 
 .sidebar .navbar-nav .nav-link {
-  color: Black;
+  color: #212529;
   padding: 10px;
   text-transform: uppercase;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.sidebar .navbar-nav .nav-link:hover {
-  background-color: #495057;
+.sidebar .navbar-nav .nav-link:hover,
+.sidebar .navbar-nav .nav-link.active {
+  background-color: #c3e6cb;
+  color: #155724;
   border-radius: 4px;
 }
 
-/* Ensure content is pushed to the right of the sidebar for larger screens */
+/* Content wrapper for large screens */
 .content-wrapper {
-  margin-left: 250px; /* Adjust this to match sidebar width */
+  margin-left: 250px;
   padding-top: 20px;
   padding-left: 20px;
 }
 
 /* Mobile and small tablet screens */
 @media (max-width: 768px) {
-  /* Sidebar becomes a top navbar */
+  .navbar-nav {
+    flex-direction: column;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: #f8f9fa;
+    z-index: 10000;
+    padding-top: 20px;
+    transition: 0.3s ease;
+  }
+
+  .navbar-toggler {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10001;
+  }
+
   .sidebar {
     position: static;
     width: 100%;
     height: auto;
   }
 
-  /* Ensure the content is not hidden behind the navbar */
   .content-wrapper {
     margin-left: 0;
+    margin-top: 25px;
   }
 
-  /* Ensure the links are displayed properly in mobile */
   .navbar-nav .nav-item {
     text-align: center;
   }
 }
 
-/* Adjust the mobile navbar toggler and links */
 @media (max-width: 576px) {
   .navbar-nav .nav-item {
     margin-left: 0;
@@ -70,4 +90,24 @@
   .navbar-nav .nav-link {
     padding: 10px 15px;
   }
+}
+
+/* Top Navbar styles */
+.navbar {
+  background-color: #f8f9fa;
+}
+
+.navbar-toggler {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #212529;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar-nav .nav-item .nav-link:hover,
+.navbar-nav .nav-item .nav-link.active {
+  background-color: #c3e6cb;
+  color: #155724;
 }
