@@ -41,7 +41,7 @@ const LoginPage = ({ setTriggerAction }) => {
       window.dispatchEvent(event);
 
       // Redirect to profile page after successful login
-      navigate("/profile");
+      navigate("/");
     } catch (err) {
       // Specific error handling
       if (err.response && err.response.status === 401) {
