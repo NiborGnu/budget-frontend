@@ -1,14 +1,24 @@
 import React, { useState } from "react";
-import apiClient from "../api/apiClient";
+import {
+  Button,
+  Card,
+  Form,
+  Container,
+  Row,
+  Col,
+  Alert,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../api/apiClient";
+import "../styles/pages/LoginPage.css";
 
-const LoginPage = ({ setTriggerAction }) => {
+const LoginPage = () => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
   const [error, setError] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // to handle loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,74 +31,88 @@ const LoginPage = ({ setTriggerAction }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation: ensure both fields are filled
     if (!credentials.username || !credentials.password) {
       setError("Please fill in both username and password.");
       return;
     }
 
-    setIsSubmitting(true); // Start loading
+    setIsSubmitting(true);
 
     try {
       const { data } = await apiClient.post("/token/", credentials);
-
-      // Store tokens in localStorage
       localStorage.setItem("access_token", data.access);
       localStorage.setItem("refresh_token", data.refresh);
 
-      // Dispatch custom event to notify login success
       const event = new CustomEvent("loginSuccess", { detail: true });
       window.dispatchEvent(event);
 
-      // Redirect to profile page after successful login
       navigate("/");
     } catch (err) {
-      // Specific error handling
       if (err.response && err.response.status === 401) {
         setError("Invalid credentials. Please try again.");
       } else {
         setError("Login failed. Please try again.");
       }
     } finally {
-      setIsSubmitting(false); // End loading
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            name="username"
-            value={credentials.username}
-            onChange={handleChange}
-            placeholder="Username"
-            autoComplete="username"
-            required
-            disabled={isSubmitting}
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            placeholder="Password"
-            autoComplete="current-password"
-            required
-            disabled={isSubmitting}
-          />
-        </div>
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Logging in..." : "Login"}
-        </button>
-      </form>
-    </div>
+    <Container className="mt-5">
+      <Row className="justify-content-center">
+        <Col md={4}>
+          <Card className="shadow-sm">
+            <Card.Header className="text-center bg-success text-white">
+              <h3>Login</h3>
+            </Card.Header>
+            <Card.Body>
+              {error && (
+                <Alert variant="danger" className="text-center">
+                  {error}
+                </Alert>
+              )}
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="username"
+                    value={credentials.username}
+                    onChange={handleChange}
+                    placeholder="Enter your username"
+                    autoComplete="username"
+                    required
+                    disabled={isSubmitting}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    value={credentials.password}
+                    onChange={handleChange}
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                    required
+                    disabled={isSubmitting}
+                  />
+                </Form.Group>
+                <Button
+                  variant="success"
+                  type="submit"
+                  className="w-100"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Logging in..." : "Login"}
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
