@@ -52,7 +52,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  <Link to="/dashboard" className="nav-link">
+                  <Link to="/" className="nav-link">
                     Dashboard
                   </Link>
                 </li>
