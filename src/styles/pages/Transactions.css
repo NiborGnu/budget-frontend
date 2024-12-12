@@ -1,0 +1,15 @@
+.transaction-form-card {
+  margin-bottom: 20px;
+}
+
+.transaction-item-card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Hide Subcategory column at 1000px or smaller */
+@media (max-width: 1000px) {
+  .hide-at-1000px {
+    display: none !important;
+  }
+}
