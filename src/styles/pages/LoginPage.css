@@ -1,0 +1,12 @@
+body {
+  background-color: #f4f6f8;
+}
+
+.card {
+  border-radius: 8px;
+  border: none;
+}
+
+.card-header {
+  font-weight: bold;
+}
