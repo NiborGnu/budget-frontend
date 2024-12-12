@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Container, Button, Table } from "react-bootstrap";
-import { useUserData } from "../hooks/useUserData"; // Importing the custom hook
+import React, { useState } from "react";
+import { Container, Button, Table, Modal, Alert } from "react-bootstrap";
+import { useUserData } from "../hooks/useUserData";
+import { useAlert } from "../hooks/useAlert";
 import LoadingIndicator from "../components/LoadingIndicator";
 import BudgetsForm from "../components/BudgetsForm";
 import apiClient from "../api/apiClient";
@@ -8,30 +9,20 @@ import "../styles/pages/Budgets.css";
 
 function Budgets() {
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [budgetToDelete, setBudgetToDelete] = useState(null);
+  const { alert, showAlert, hideAlert } = useAlert();
 
-  // Using useUserData hook to fetch budgets and categories
   const {
     data: budgets,
     isLoading: isBudgetsLoading,
     refetch: refetchBudgets,
-  } = useUserData({
-    endpoint: "/budgets/",
-  });
+  } = useUserData({ endpoint: "/budgets/" });
 
   const { data: categories, isLoading: isCategoriesLoading } = useUserData({
     endpoint: "/categories/",
   });
-
-  // Handle loading and error states
-  useEffect(() => {
-    if (isBudgetsLoading || isCategoriesLoading) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [isBudgetsLoading, isCategoriesLoading]);
 
   const handleAddNew = () => {
     setSelectedBudget(null);
@@ -48,16 +39,43 @@ function Budgets() {
     setShowModal(true);
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await apiClient.delete(`/budgets/${id}/`);
-      refetchBudgets();
-    } catch (error) {
-      console.error("Failed to delete budget", error);
+  const handleDeleteClick = (budget) => {
+    setBudgetToDelete(budget);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteBudget = async () => {
+    if (budgetToDelete) {
+      try {
+        await apiClient.delete(`/budgets/${budgetToDelete.id}/`);
+        refetchBudgets();
+        showAlert("Budget deleted successfully.", "success");
+      } catch (error) {
+        console.error("Failed to delete budget", error);
+        showAlert("Failed to delete budget.", "danger");
+      } finally {
+        setShowDeleteModal(false);
+        setBudgetToDelete(null);
+      }
     }
   };
 
-  if (loading) {
+  const handleSaveBudget = async () => {
+    try {
+      refetchBudgets();
+      showAlert(
+        selectedBudget
+          ? "Budget updated successfully."
+          : "Budget added successfully.",
+        "success"
+      );
+    } catch (error) {
+      console.error("Failed to save budget", error);
+      showAlert("Failed to save budget.", "danger");
+    }
+  };
+
+  if (isBudgetsLoading || isCategoriesLoading) {
     return (
       <div>
         Loading Budgets...
@@ -69,11 +87,24 @@ function Budgets() {
   return (
     <Container>
       <h1>Budgets</h1>
+
+      {/* Alert Component */}
+      {alert.show && (
+        <Alert
+          variant={alert.variant}
+          onClose={hideAlert}
+          dismissible
+          className="mb-3"
+        >
+          {alert.message}
+        </Alert>
+      )}
+
       <Button className="mb-3" onClick={handleAddNew}>
         Add New Budget
       </Button>
 
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>Name</th>
@@ -100,7 +131,7 @@ function Budgets() {
                   <Button
                     variant="danger"
                     size="sm"
-                    onClick={() => handleDelete(budget.id)}
+                    onClick={() => handleDeleteClick(budget)}
                   >
                     Delete
                   </Button>
@@ -121,10 +152,33 @@ function Budgets() {
       <BudgetsForm
         show={showModal}
         onHide={() => setShowModal(false)}
-        onSave={refetchBudgets} // Trigger refetch after saving
+        onSave={handleSaveBudget}
         budgetData={selectedBudget}
         categories={categories}
       />
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this budget? This action cannot be
+          undone.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDeleteBudget}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
