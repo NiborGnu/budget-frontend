@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { Modal, Form, Button } from "react-bootstrap";
 import apiClient from "../api/apiClient";
 
-function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
+function TransactionForm({
+  show,
+  onHide,
+  transactionData,
+  fetchTransactions,
+  showAlert,
+}) {
   const [formData, setFormData] = useState({
     id: null,
     amount: "",
@@ -16,7 +22,6 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
   const [availableCategories, setAvailableCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
 
-  // Fetch categories dynamically based on transaction type
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -30,7 +35,6 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
           console.log("No categories returned from the API.");
         }
 
-        // If editing, set subcategories for the selected category
         if (transactionData && transactionData.category_id) {
           const selectedCategory = res.data.find(
             (cat) => cat.id === transactionData.category_id
@@ -49,7 +53,6 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
     }
   }, [formData.transaction_type, transactionData]);
 
-  // Update form data when editing a transaction
   useEffect(() => {
     if (transactionData) {
       setFormData({
@@ -75,7 +78,6 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
     }
   }, [transactionData]);
 
-  // Fetch subcategories whenever the selected category changes
   useEffect(() => {
     if (formData.category_id) {
       const category = availableCategories.find(
@@ -87,16 +89,14 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
     }
   }, [formData.category_id, availableCategories]);
 
-  // Handle input changes for form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value === "" ? null : value, // Allow null values for subcategory_id
+      [name]: value === "" ? null : value,
     }));
   };
 
-  // Handle form submission (save or update transaction)
   const handleSubmit = async () => {
     const {
       id,
@@ -126,13 +126,16 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
     try {
       if (id) {
         await apiClient.put(`/transactions/${id}/`, newTransaction);
+        showAlert("Transaction updated successfully.", "success");
       } else {
         await apiClient.post("/transactions/", newTransaction);
+        showAlert("Transaction created successfully.", "success");
       }
-      fetchTransactions(); // Call fetchTransactions to refresh the data
+      fetchTransactions();
       onHide();
     } catch (error) {
       console.error("Error saving transaction", error);
+      showAlert("Error saving transaction.", "danger");
     }
   };
 
@@ -163,7 +166,7 @@ function TransactionForm({ show, onHide, transactionData, fetchTransactions }) {
               name="transaction_type"
               value={formData.transaction_type}
               onChange={handleChange}
-              disabled={!!transactionData} // Disable changing type when editing
+              disabled={!!transactionData}
             >
               <option value="Expenses">Expense</option>
               <option value="Incomes">Income</option>
@@ -240,6 +243,7 @@ TransactionForm.propTypes = {
   onHide: PropTypes.func.isRequired,
   transactionData: PropTypes.object,
   fetchTransactions: PropTypes.func.isRequired,
+  showAlert: PropTypes.func.isRequired,
 };
 
 export default TransactionForm;
