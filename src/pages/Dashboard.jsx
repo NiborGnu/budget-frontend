@@ -10,21 +10,27 @@ function Dashboard() {
   const [latestIncomes, setLatestIncomes] = useState([]);
   const [latestExpenses, setLatestExpenses] = useState([]);
 
-  const { data: transactionSummary, isLoading: isSummaryLoading } = useUserData(
-    {
-      endpoint: "/transactions/summary/",
-    }
-  );
+  const {
+    data: transactionSummary,
+    isLoading: isSummaryLoading,
+    refetch: refetchSummary,
+  } = useUserData({
+    endpoint: "/transactions/summary/",
+  });
 
   const { data: budgets, isLoading: isBudgetsLoading } = useUserData({
     endpoint: "/budgets/",
   });
 
-  const { data: transactions, isLoading: isTransactionsLoading } = useUserData({
+  const {
+    data: transactions,
+    isLoading: isTransactionsLoading,
+    refetch: refetchTransactions,
+  } = useUserData({
     endpoint: "/transactions/",
   });
 
-  // Fetch data only once transactions data is available
+  // Fetch latest transactions on transactions update
   useEffect(() => {
     if (transactions) {
       const latestIncomes = transactions
@@ -42,7 +48,13 @@ function Dashboard() {
     }
   }, [transactions]);
 
-  // Check if any data is still loading
+  // Refetch data to update the dashboard
+  const handleAddTransaction = () => {
+    refetchTransactions();
+    refetchSummary();
+  };
+
+  // Check loading state
   if (isSummaryLoading || isTransactionsLoading || isBudgetsLoading) {
     return (
       <div>
@@ -56,13 +68,22 @@ function Dashboard() {
     <Container fluid>
       <h1>Dashboard</h1>
 
-      {/* Add Buttons with NavLink */}
+      {/* Add Buttons with Accessibility */}
       <Row className="mb-4">
         <Col>
-          <NavLink to="/transactions" className="btn btn-primary me-3">
+          <NavLink
+            to="/transactions"
+            className="btn btn-success me-3"
+            onClick={handleAddTransaction}
+            aria-label="Navigate to add a new transaction"
+          >
             Add Transaction
           </NavLink>
-          <NavLink to="/budgets" className="btn btn-success">
+          <NavLink
+            to="/budgets"
+            className="btn btn-success"
+            aria-label="Navigate to add a new budget"
+          >
             Add Budget
           </NavLink>
         </Col>
