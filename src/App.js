@@ -9,6 +9,7 @@ import Transactions from "./pages/Transactions";
 import Budgets from "./pages/Budgets";
 import UserProfile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFoundPage from "./pages/NotFoundPage"; // Import your NotFoundPage component
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const queryClient = new QueryClient();
@@ -19,7 +20,6 @@ const App = () => {
       <Router>
         <Navbar /> {/* Navbar appears on all pages */}
         <div className="content-wrapper">
-          {" "}
           {/* Content wrapper to handle the layout */}
           <Routes>
             <Route path="/register" element={<RegisterPage />} />
@@ -57,6 +57,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            {/* Catch-all route for 404 Page Not Found */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </Router>
