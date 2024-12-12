@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Collapse } from "reactstrap";
 import Logout from "./Logout";
 import "../styles/components/Navbar.css";
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const handleLoginSuccess = (event) => {
@@ -39,6 +40,8 @@ const Navbar = () => {
 
   const toggleNavbar = () => setIsOpen(!isOpen);
 
+  const isActive = (path) => location.pathname === path;
+
   if (loading) {
     return null;
   }
@@ -47,43 +50,69 @@ const Navbar = () => {
     <div>
       {/* Sidebar for large screens */}
       <div className="d-none d-md-block sidebar">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light flex-column">
+        <nav className="navbar navbar-expand-lg navbar-light flex-column">
           <ul className="navbar-nav">
             {isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link">
+                  <Link
+                    to="/"
+                    className={`nav-link ${isActive("/") ? "active" : ""}`}
+                  >
                     Dashboard
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/transactions" className="nav-link">
+                  <Link
+                    to="/transactions"
+                    className={`nav-link ${
+                      isActive("/transactions") ? "active" : ""
+                    }`}
+                  >
                     Transactions
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/budgets" className="nav-link">
+                  <Link
+                    to="/budgets"
+                    className={`nav-link ${
+                      isActive("/budgets") ? "active" : ""
+                    }`}
+                  >
                     Budgets
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/profile" className="nav-link">
+                  <Link
+                    to="/profile"
+                    className={`nav-link ${
+                      isActive("/profile") ? "active" : ""
+                    }`}
+                  >
                     Profile
                   </Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item ml-auto">
                   <Logout />
                 </li>
               </>
             ) : (
               <>
                 <li className="nav-item">
-                  <Link to="/register" className="nav-link">
+                  <Link
+                    to="/register"
+                    className={`nav-link ${
+                      isActive("/register") ? "active" : ""
+                    }`}
+                  >
                     Register
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/login" className="nav-link">
+                  <Link
+                    to="/login"
+                    className={`nav-link ${isActive("/login") ? "active" : ""}`}
+                  >
                     Login
                   </Link>
                 </li>
@@ -95,7 +124,7 @@ const Navbar = () => {
 
       {/* Top Navbar for small screens */}
       <div className="d-md-none">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light">
           <button
             className="navbar-toggler"
             type="button"
@@ -107,35 +136,76 @@ const Navbar = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <Collapse isOpen={isOpen}>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav">
-                {isLoggedIn ? (
-                  <>
-                    <li className="nav-item">
-                      <Link to="/profile" className="nav-link">
-                        Profile
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Logout />
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li className="nav-item">
-                      <Link to="/register" className="nav-link">
-                        Register
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/login" className="nav-link">
-                        Login
-                      </Link>
-                    </li>
-                  </>
-                )}
-              </ul>
-            </div>
+            <ul className="navbar-nav">
+              {isLoggedIn ? (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      to="/"
+                      className={`nav-link ${isActive("/") ? "active" : ""}`}
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/transactions"
+                      className={`nav-link ${
+                        isActive("/transactions") ? "active" : ""
+                      }`}
+                    >
+                      Transactions
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/budgets"
+                      className={`nav-link ${
+                        isActive("/budgets") ? "active" : ""
+                      }`}
+                    >
+                      Budgets
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/profile"
+                      className={`nav-link ${
+                        isActive("/profile") ? "active" : ""
+                      }`}
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li className="nav-item ml-auto">
+                    <Logout />
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      to="/register"
+                      className={`nav-link ${
+                        isActive("/register") ? "active" : ""
+                      }`}
+                    >
+                      Register
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/login"
+                      className={`nav-link ${
+                        isActive("/login") ? "active" : ""
+                      }`}
+                    >
+                      Login
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
           </Collapse>
         </nav>
       </div>
