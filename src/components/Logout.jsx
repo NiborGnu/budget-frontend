@@ -29,7 +29,10 @@ const Logout = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Log Out</button>
+      {/* Add Bootstrap "danger" class to button */}
+      <button className="btn btn-danger" onClick={openModal}>
+        Log Out
+      </button>
 
       <LogoutModal
         isOpen={isModalOpen}
