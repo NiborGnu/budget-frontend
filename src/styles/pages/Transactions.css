@@ -7,9 +7,16 @@
   margin-bottom: 20px;
 }
 
-/* Hide Subcategory column at 1000px or smaller */
+/* Hide at 1000px or wider screens */
 @media (max-width: 1000px) {
   .hide-at-1000px {
+    display: none !important;
+  }
+}
+
+/* Show at 1000px or wider screens */
+@media (min-width: 1000px) {
+  .hide-at-1000px-min {
     display: none !important;
   }
 }
