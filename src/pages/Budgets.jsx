@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-import { Container, Button, Table, Modal, Alert } from "react-bootstrap";
+import {
+  Container,
+  Button,
+  Table,
+  Modal,
+  Alert,
+  Form,
+  InputGroup,
+} from "react-bootstrap";
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import { useUserData } from "../hooks/useUserData";
 import { useAlert } from "../hooks/useAlert";
 import LoadingIndicator from "../components/LoadingIndicator";
 import BudgetsForm from "../components/BudgetsForm";
 import apiClient from "../api/apiClient";
+import useTable from "../hooks/useTable";
 import "../styles/pages/Budgets.css";
 
 function Budgets() {
@@ -75,6 +85,16 @@ function Budgets() {
     }
   };
 
+  const { sortedData, handleSort, searchQuery, setSearchQuery, sortConfig } =
+    useTable(budgets, ["name", "amount", "category.name"]);
+
+  const renderSortIcon = (key) => {
+    if (!sortConfig || sortConfig.key !== key) {
+      return <FaSort />;
+    }
+    return sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />;
+  };
+
   if (isBudgetsLoading || isCategoriesLoading) {
     return (
       <div>
@@ -100,22 +120,49 @@ function Budgets() {
         </Alert>
       )}
 
-      <Button className="mb-3" onClick={handleAddNew}>
-        Add New Budget
-      </Button>
+      {/* Search and Add New Button */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <InputGroup style={{ width: "300px" }}>
+          <Form.Control
+            id="search-budgets"
+            name="searchQuery"
+            type="text"
+            placeholder="Search budgets..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </InputGroup>
+        <Button onClick={handleAddNew}>Add New Budget</Button>
+      </div>
 
+      {/* Budgets Table */}
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Category</th>
+            <th
+              onClick={() => handleSort("name")}
+              style={{ cursor: "pointer" }}
+            >
+              Name {renderSortIcon("name")}
+            </th>
+            <th
+              onClick={() => handleSort("amount")}
+              style={{ cursor: "pointer" }}
+            >
+              Amount {renderSortIcon("amount")}
+            </th>
+            <th
+              onClick={() => handleSort("category.name")}
+              style={{ cursor: "pointer" }}
+            >
+              Category {renderSortIcon("category.name")}
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {budgets.length ? (
-            budgets.map((budget) => (
+          {sortedData.length ? (
+            sortedData.map((budget) => (
               <tr key={budget.id}>
                 <td>{budget.name}</td>
                 <td>{budget.amount}</td>

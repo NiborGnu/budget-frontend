@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Table, Alert, Modal } from "react-bootstrap";
+import {
+  Container,
+  Button,
+  Table,
+  Alert,
+  Modal,
+  Form,
+  InputGroup,
+} from "react-bootstrap";
 import { useUserData } from "../hooks/useUserData";
 import { useAlert } from "../hooks/useAlert";
 import LoadingIndicator from "../components/LoadingIndicator";
 import TransactionForm from "../components/TransactionForm";
 import apiClient from "../api/apiClient";
+import useTable from "../hooks/useTable";
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import "../styles/pages/Transactions.css";
 
 function Transactions() {
@@ -33,6 +43,23 @@ function Transactions() {
       setLoading(false);
     }
   }, [isTransactionsLoading, isCategoriesLoading]);
+
+  const { sortedData, handleSort, searchQuery, setSearchQuery, sortConfig } =
+    useTable(transactions, [
+      "amount",
+      "category.name",
+      "subcategory.name",
+      "description",
+      "created_at",
+    ]);
+
+  // Render Sort Icon Function
+  const renderSortIcon = (key) => {
+    if (!sortConfig || sortConfig.key !== key) {
+      return <FaSort />;
+    }
+    return sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />;
+  };
 
   const handleAddTransaction = () => {
     setEditingTransaction(null);
@@ -69,10 +96,10 @@ function Transactions() {
     );
   }
 
-  const expenses = transactions.filter(
+  const expenses = sortedData.filter(
     (transaction) => transaction.transaction_type === "expense"
   );
-  const incomes = transactions.filter(
+  const incomes = sortedData.filter(
     (transaction) => transaction.transaction_type === "income"
   );
 
@@ -92,9 +119,20 @@ function Transactions() {
         </Alert>
       )}
 
-      <Button className="mb-3" onClick={handleAddTransaction}>
-        Add New Transaction
-      </Button>
+      {/* Search Bar And Add New Transaction */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <InputGroup style={{ width: "300px" }}>
+          <Form.Control
+            type="text"
+            placeholder="Search transactions..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            id="searchBar"
+            name="search"
+          />
+        </InputGroup>
+        <Button onClick={handleAddTransaction}>Add New Transaction</Button>
+      </div>
 
       {transactions.length === 0 ? (
         <Alert variant="info">
@@ -112,11 +150,33 @@ function Transactions() {
               <thead>
                 <tr>
                   <th>Type</th>
-                  <th>Amount</th>
-                  <th className="d-none d-md-table-cell">Category</th>
-                  <th className="hide-at-1000px">Subcategory</th>
-                  <th className="d-none d-md-table-cell">Description</th>
-                  <th className="hide-at-1000px">Date</th>
+                  <th onClick={() => handleSort("amount")}>
+                    Amount {renderSortIcon("amount")}
+                  </th>
+                  <th
+                    className="d-none d-md-table-cell"
+                    onClick={() => handleSort("category.name")}
+                  >
+                    Category {renderSortIcon("category.name")}
+                  </th>
+                  <th
+                    className="hide-at-1000px"
+                    onClick={() => handleSort("subcategory.name")}
+                  >
+                    Subcategory {renderSortIcon("subcategory.name")}
+                  </th>
+                  <th
+                    className="d-none d-md-table-cell"
+                    onClick={() => handleSort("description")}
+                  >
+                    Description {renderSortIcon("description")}
+                  </th>
+                  <th
+                    className="hide-at-1000px"
+                    onClick={() => handleSort("created_at")}
+                  >
+                    Date {renderSortIcon("created_at")}
+                  </th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -145,6 +205,7 @@ function Transactions() {
                         variant="info"
                         size="sm"
                         onClick={() => setSelectedTransaction(transaction)}
+                        className="hide-at-1000px-min"
                       >
                         Show
                       </Button>{" "}
@@ -178,11 +239,33 @@ function Transactions() {
               <thead>
                 <tr>
                   <th>Type</th>
-                  <th>Amount</th>
-                  <th className="d-none d-md-table-cell">Category</th>
-                  <th className="hide-at-1000px">Subcategory</th>
-                  <th className="d-none d-md-table-cell">Description</th>
-                  <th className="hide-at-1000px">Date</th>
+                  <th onClick={() => handleSort("amount")}>
+                    Amount {renderSortIcon("amount")}
+                  </th>
+                  <th
+                    className="d-none d-md-table-cell"
+                    onClick={() => handleSort("category.name")}
+                  >
+                    Category {renderSortIcon("category.name")}
+                  </th>
+                  <th
+                    className="hide-at-1000px"
+                    onClick={() => handleSort("subcategory.name")}
+                  >
+                    Subcategory {renderSortIcon("subcategory.name")}
+                  </th>
+                  <th
+                    className="d-none d-md-table-cell"
+                    onClick={() => handleSort("description")}
+                  >
+                    Description {renderSortIcon("description")}
+                  </th>
+                  <th
+                    className="hide-at-1000px"
+                    onClick={() => handleSort("created_at")}
+                  >
+                    Date {renderSortIcon("created_at")}
+                  </th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -211,6 +294,7 @@ function Transactions() {
                         variant="info"
                         size="sm"
                         onClick={() => setSelectedTransaction(transaction)}
+                        className="hide-at-1000px-min"
                       >
                         Show
                       </Button>{" "}
