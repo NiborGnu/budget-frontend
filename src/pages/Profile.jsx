@@ -201,6 +201,18 @@ const UserProfile = () => {
       <Row className="mb-4">
         <Col>
           <h1>{data.first_name || "Welcome!"}</h1>
+
+          {alert.show && (
+            <Alert
+              variant={alert.variant}
+              onClose={hideAlert}
+              dismissible
+              className="mb-3"
+            >
+              {alert.message}
+            </Alert>
+          )}
+
           <p>Username: {data.username}</p>
           <p>First Name: {data.first_name}</p>
           <p>Last Name: {data.last_name}</p>
@@ -219,17 +231,6 @@ const UserProfile = () => {
         </Col>
       </Row>
 
-      {alert.show && (
-        <Alert
-          variant={alert.variant}
-          onClose={hideAlert}
-          dismissible
-          className="mb-3"
-        >
-          {alert.message}
-        </Alert>
-      )}
-
       {/* Edit Profile Modal */}
       <Modal show={showEditProfileModal} onHide={closeEditProfileModal}>
         <Modal.Header closeButton>
@@ -238,36 +239,42 @@ const UserProfile = () => {
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
+              <Form.Label htmlFor="username">Username</Form.Label>
               <Form.Control
                 type="text"
+                id="username"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
                 required
+                autoComplete="username"
               />
               {usernameError && (
                 <p className="error text-danger mb-3">{usernameError}</p>
               )}
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>First Name</Form.Label>
+              <Form.Label htmlFor="first_name">First Name</Form.Label>
               <Form.Control
                 type="text"
+                id="first_name"
                 name="first_name"
                 value={formData.first_name}
                 onChange={handleChange}
                 required
+                autoComplete="given-name"
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Last Name</Form.Label>
+              <Form.Label htmlFor="last_name">Last Name</Form.Label>
               <Form.Control
                 type="text"
+                id="last_name"
                 name="last_name"
                 value={formData.last_name}
                 onChange={handleChange}
                 required
+                autoComplete="family-name"
               />
             </Form.Group>
             {errorMsg && <p className="error">{errorMsg}</p>}
@@ -298,7 +305,7 @@ const UserProfile = () => {
           <form onSubmit={handlePasswordSubmit}>
             {Object.keys(passwordForm).map((field) => (
               <Form.Group className="mb-3" key={field}>
-                <Form.Label>
+                <Form.Label htmlFor={field}>
                   {field
                     .replace("_", " ")
                     .replace(/\b\w/g, (char) => char.toUpperCase())}
@@ -306,10 +313,16 @@ const UserProfile = () => {
                 <div style={{ position: "relative" }}>
                   <Form.Control
                     type={passwordVisibility[field] ? "text" : "password"}
+                    id={field}
                     name={field}
                     value={passwordForm[field]}
                     onChange={handlePasswordInputChange}
                     required
+                    autoComplete={
+                      field === "old_password"
+                        ? "current-password"
+                        : "new-password"
+                    }
                   />
                   <span
                     onClick={() => togglePasswordVisibility(field)}
