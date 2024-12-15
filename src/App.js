@@ -9,7 +9,7 @@ import Transactions from "./pages/Transactions";
 import Budgets from "./pages/Budgets";
 import UserProfile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
-import NotFoundPage from "./pages/NotFoundPage"; // Import your NotFoundPage component
+import NotFoundPage from "./pages/NotFoundPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const queryClient = new QueryClient();
