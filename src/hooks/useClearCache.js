@@ -5,6 +5,6 @@ export const useClearUserProfileCache = () => {
   const queryClient = useQueryClient();
 
   return () => {
-    queryClient.removeQueries(["userProfile"]); // Clear cache for user profile
+    queryClient.removeQueries(["userProfile"]);
   };
 };
