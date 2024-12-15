@@ -24,6 +24,7 @@ function Transactions() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("expenses"); // New state for selecting tab
   const { alert, showAlert, hideAlert } = useAlert();
 
   const {
@@ -119,9 +120,9 @@ function Transactions() {
         </Alert>
       )}
 
-      {/* Search Bar And Add New Transaction */}
+      {/* Search And Add New Transaction */}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <InputGroup style={{ width: "300px" }}>
+        <InputGroup className="search-bar">
           <Form.Control
             type="text"
             placeholder="Search transactions..."
@@ -134,6 +135,22 @@ function Transactions() {
         <Button onClick={handleAddTransaction}>Add New Transaction</Button>
       </div>
 
+      {/* Tab for Switching Between Expenses and Incomes */}
+      <div className="mb-3">
+        <Button
+          variant={selectedTab === "expenses" ? "primary" : "outline-primary"}
+          onClick={() => setSelectedTab("expenses")}
+        >
+          Expenses
+        </Button>
+        <Button
+          variant={selectedTab === "incomes" ? "primary" : "outline-primary"}
+          onClick={() => setSelectedTab("incomes")}
+        >
+          Incomes
+        </Button>
+      </div>
+
       {transactions.length === 0 ? (
         <Alert variant="info">
           No transactions found. Add your first transaction using the button
@@ -141,182 +158,204 @@ function Transactions() {
         </Alert>
       ) : (
         <>
-          {/* Expenses Table */}
-          <h3>Expenses</h3>
-          {expenses.length === 0 ? (
-            <Alert variant="warning">No expenses recorded yet.</Alert>
-          ) : (
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th onClick={() => handleSort("amount")}>
-                    Amount {renderSortIcon("amount")}
-                  </th>
-                  <th
-                    className="d-none d-md-table-cell"
-                    onClick={() => handleSort("category.name")}
-                  >
-                    Category {renderSortIcon("category.name")}
-                  </th>
-                  <th
-                    className="hide-at-1000px"
-                    onClick={() => handleSort("subcategory.name")}
-                  >
-                    Subcategory {renderSortIcon("subcategory.name")}
-                  </th>
-                  <th
-                    className="d-none d-md-table-cell"
-                    onClick={() => handleSort("description")}
-                  >
-                    Description {renderSortIcon("description")}
-                  </th>
-                  <th
-                    className="hide-at-1000px"
-                    onClick={() => handleSort("created_at")}
-                  >
-                    Date {renderSortIcon("created_at")}
-                  </th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {expenses.map((transaction) => (
-                  <tr key={transaction.id}>
-                    <td>
-                      {transaction.transaction_type.charAt(0).toUpperCase() +
-                        transaction.transaction_type.slice(1)}
-                    </td>
-                    <td>${transaction.amount}</td>
-                    <td className="d-none d-md-table-cell">
-                      {transaction.category?.name || "N/A"}
-                    </td>
-                    <td className="hide-at-1000px">
-                      {transaction.subcategory?.name || "N/A"}
-                    </td>
-                    <td className="d-none d-md-table-cell">
-                      {transaction.description}
-                    </td>
-                    <td className="hide-at-1000px">
-                      {new Date(transaction.created_at).toLocaleString()}
-                    </td>
-                    <td>
-                      <Button
-                        variant="info"
-                        size="sm"
-                        onClick={() => setSelectedTransaction(transaction)}
-                        className="hide-at-1000px-min"
+          {/* Expenses Tables */}
+          {selectedTab === "expenses" && (
+            <>
+              <h3>Expenses</h3>
+              {expenses.length === 0 ? (
+                <Alert variant="warning">No expenses recorded yet.</Alert>
+              ) : (
+                <Table striped bordered hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th
+                        className="sortable-header"
+                        onClick={() => handleSort("amount")}
                       >
-                        Show
-                      </Button>{" "}
-                      <Button
-                        variant="warning"
-                        size="sm"
-                        onClick={() => handleEditTransaction(transaction)}
+                        Amount {renderSortIcon("amount")}
+                      </th>
+                      <th
+                        className="sortable-header d-none d-md-table-cell"
+                        onClick={() => handleSort("category.name")}
                       >
-                        Edit
-                      </Button>{" "}
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleDeleteConfirmation(transaction.id)}
+                        Category {renderSortIcon("category.name")}
+                      </th>
+                      <th
+                        className="sortable-header hide-at-1145px"
+                        onClick={() => handleSort("subcategory.name")}
                       >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+                        Subcategory {renderSortIcon("subcategory.name")}
+                      </th>
+                      <th
+                        className="sortable-header hide-at-1145px"
+                        onClick={() => handleSort("description")}
+                      >
+                        Description {renderSortIcon("description")}
+                      </th>
+                      <th
+                        className="sortable-header hide-at-1145px max-width-200"
+                        onClick={() => handleSort("created_at")}
+                      >
+                        Date {renderSortIcon("created_at")}
+                      </th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {expenses.map((transaction) => (
+                      <tr key={transaction.id}>
+                        <td>
+                          {transaction.transaction_type
+                            .charAt(0)
+                            .toUpperCase() +
+                            transaction.transaction_type.slice(1)}
+                        </td>
+                        <td>${transaction.amount}</td>
+                        <td className="d-none d-md-table-cell">
+                          {transaction.category?.name || "N/A"}
+                        </td>
+                        <td className="hide-at-1145px">
+                          {transaction.subcategory?.name || "N/A"}
+                        </td>
+                        <td className="hide-at-1145px">
+                          {transaction.description}
+                        </td>
+                        <td className="hide-at-1145px">
+                          {new Date(transaction.created_at).toLocaleString()}
+                        </td>
+                        <td>
+                          <Button
+                            variant="info"
+                            size="sm"
+                            onClick={() => setSelectedTransaction(transaction)}
+                            className="hide-at-1145px-min"
+                          >
+                            Show
+                          </Button>{" "}
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            onClick={() => handleEditTransaction(transaction)}
+                          >
+                            Edit
+                          </Button>{" "}
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() =>
+                              handleDeleteConfirmation(transaction.id)
+                            }
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
+            </>
           )}
 
-          {/* Incomes Table */}
-          <h3>Incomes</h3>
-          {incomes.length === 0 ? (
-            <Alert variant="warning">No incomes recorded yet.</Alert>
-          ) : (
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th onClick={() => handleSort("amount")}>
-                    Amount {renderSortIcon("amount")}
-                  </th>
-                  <th
-                    className="d-none d-md-table-cell"
-                    onClick={() => handleSort("category.name")}
-                  >
-                    Category {renderSortIcon("category.name")}
-                  </th>
-                  <th
-                    className="hide-at-1000px"
-                    onClick={() => handleSort("subcategory.name")}
-                  >
-                    Subcategory {renderSortIcon("subcategory.name")}
-                  </th>
-                  <th
-                    className="d-none d-md-table-cell"
-                    onClick={() => handleSort("description")}
-                  >
-                    Description {renderSortIcon("description")}
-                  </th>
-                  <th
-                    className="hide-at-1000px"
-                    onClick={() => handleSort("created_at")}
-                  >
-                    Date {renderSortIcon("created_at")}
-                  </th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {incomes.map((transaction) => (
-                  <tr key={transaction.id}>
-                    <td>
-                      {transaction.transaction_type.charAt(0).toUpperCase() +
-                        transaction.transaction_type.slice(1)}
-                    </td>
-                    <td>${transaction.amount}</td>
-                    <td className="d-none d-md-table-cell">
-                      {transaction.category?.name || "N/A"}
-                    </td>
-                    <td className="hide-at-1000px">
-                      {transaction.subcategory?.name || "N/A"}
-                    </td>
-                    <td className="d-none d-md-table-cell">
-                      {transaction.description}
-                    </td>
-                    <td className="hide-at-1000px">
-                      {new Date(transaction.created_at).toLocaleString()}
-                    </td>
-                    <td>
-                      <Button
-                        variant="info"
-                        size="sm"
-                        onClick={() => setSelectedTransaction(transaction)}
-                        className="hide-at-1000px-min"
+          {/* Incomes Tables */}
+          {selectedTab === "incomes" && (
+            <>
+              <h3>Incomes</h3>
+              {incomes.length === 0 ? (
+                <Alert variant="warning">No incomes recorded yet.</Alert>
+              ) : (
+                <Table striped bordered hover responsive>
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th
+                        className="sortable-header"
+                        onClick={() => handleSort("amount")}
                       >
-                        Show
-                      </Button>{" "}
-                      <Button
-                        variant="warning"
-                        size="sm"
-                        onClick={() => handleEditTransaction(transaction)}
+                        Amount {renderSortIcon("amount")}
+                      </th>
+                      <th
+                        className="sortable-header d-none d-md-table-cell"
+                        onClick={() => handleSort("category.name")}
                       >
-                        Edit
-                      </Button>{" "}
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => handleDeleteConfirmation(transaction.id)}
+                        Category {renderSortIcon("category.name")}
+                      </th>
+                      <th
+                        className="sortable-header hide-at-1145px"
+                        onClick={() => handleSort("subcategory.name")}
                       >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+                        Subcategory {renderSortIcon("subcategory.name")}
+                      </th>
+                      <th
+                        className="sortable-header hide-at-1145px"
+                        onClick={() => handleSort("description")}
+                      >
+                        Description {renderSortIcon("description")}
+                      </th>
+                      <th
+                        className="sortable-header hide-at-1145px max-width-200"
+                        onClick={() => handleSort("created_at")}
+                      >
+                        Date {renderSortIcon("created_at")}
+                      </th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {incomes.map((transaction) => (
+                      <tr key={transaction.id}>
+                        <td>
+                          {transaction.transaction_type
+                            .charAt(0)
+                            .toUpperCase() +
+                            transaction.transaction_type.slice(1)}
+                        </td>
+                        <td>${transaction.amount}</td>
+                        <td className="d-none d-md-table-cell">
+                          {transaction.category?.name || "N/A"}
+                        </td>
+                        <td className="hide-at-1145px">
+                          {transaction.subcategory?.name || "N/A"}
+                        </td>
+                        <td className="hide-at-1145px">
+                          {transaction.description}
+                        </td>
+                        <td className="hide-at-1145px">
+                          {new Date(transaction.created_at).toLocaleString()}
+                        </td>
+                        <td>
+                          <Button
+                            variant="info"
+                            size="sm"
+                            onClick={() => setSelectedTransaction(transaction)}
+                            className="hide-at-1145px-min"
+                          >
+                            Show
+                          </Button>{" "}
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            onClick={() => handleEditTransaction(transaction)}
+                          >
+                            Edit
+                          </Button>{" "}
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() =>
+                              handleDeleteConfirmation(transaction.id)
+                            }
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
+            </>
           )}
         </>
       )}

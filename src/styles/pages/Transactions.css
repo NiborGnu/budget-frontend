@@ -7,16 +7,38 @@
   margin-bottom: 20px;
 }
 
+/* Search style */
+.search-bar {
+  max-width: 300px;
+}
+
+/* Sortable Header Styling */
+.sortable-header {
+  cursor: pointer;
+  text-align: center;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+
+.sortable-header:hover {
+  background-color: #0056b3;
+  color: #f8f9fa;
+}
+
 /* Hide at 1000px or wider screens */
-@media (max-width: 1000px) {
-  .hide-at-1000px {
+@media (max-width: 1145px) {
+  .hide-at-1145px {
     display: none !important;
+  }
+  .max-width-200 {
+    max-width: 200px;
   }
 }
 
 /* Show at 1000px or wider screens */
-@media (min-width: 1000px) {
-  .hide-at-1000px-min {
+@media (min-width: 1145px) {
+  .hide-at-1145px-min {
     display: none !important;
   }
 }
