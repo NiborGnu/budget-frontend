@@ -120,9 +120,9 @@ function Budgets() {
         </Alert>
       )}
 
-      {/* Search and Add New Button */}
+      {/* Search and Add New Budgets */}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <InputGroup style={{ width: "300px" }}>
+        <InputGroup className="search-bar">
           <Form.Control
             id="search-budgets"
             name="searchQuery"
@@ -132,28 +132,27 @@ function Budgets() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </InputGroup>
-        <Button onClick={handleAddNew}>Add New Budget</Button>
+        <Button className="add-budget-btn" onClick={handleAddNew}>
+          Add New Budget
+        </Button>
       </div>
 
       {/* Budgets Table */}
-      <Table striped bordered hover responsive>
+      <Table striped bordered hover responsive className="budgets-table">
         <thead>
           <tr>
-            <th
-              onClick={() => handleSort("name")}
-              style={{ cursor: "pointer" }}
-            >
+            <th onClick={() => handleSort("name")} className="sortable-header">
               Name {renderSortIcon("name")}
             </th>
             <th
               onClick={() => handleSort("amount")}
-              style={{ cursor: "pointer" }}
+              className="sortable-header"
             >
               Amount {renderSortIcon("amount")}
             </th>
             <th
               onClick={() => handleSort("category.name")}
-              style={{ cursor: "pointer" }}
+              className="sortable-header"
             >
               Category {renderSortIcon("category.name")}
             </th>
