@@ -310,7 +310,7 @@ const UserProfile = () => {
                     .replace("_", " ")
                     .replace(/\b\w/g, (char) => char.toUpperCase())}
                 </Form.Label>
-                <div style={{ position: "relative" }}>
+                <div className="position-relative">
                   <Form.Control
                     type={passwordVisibility[field] ? "text" : "password"}
                     id={field}
@@ -326,13 +326,7 @@ const UserProfile = () => {
                   />
                   <span
                     onClick={() => togglePasswordVisibility(field)}
-                    style={{
-                      position: "absolute",
-                      right: 10,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                    }}
+                    className="password-visibility-toggle"
                   >
                     {passwordVisibility[field] ? <FaEyeSlash /> : <FaEye />}
                   </span>
