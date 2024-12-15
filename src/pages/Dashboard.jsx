@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Table } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useUserData } from "../hooks/useUserData";
 import TransactionSummaryCard from "../components/TransactionSummaryCard";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -9,6 +9,8 @@ import "../styles/pages/Dashboard.css";
 function Dashboard() {
   const [latestIncomes, setLatestIncomes] = useState([]);
   const [latestExpenses, setLatestExpenses] = useState([]);
+
+  const location = useLocation(); // To track the current route
 
   const {
     data: transactionSummary,
@@ -47,6 +49,13 @@ function Dashboard() {
       setLatestExpenses(latestExpenses);
     }
   }, [transactions]);
+
+  // Refetch data when the Dashboard page is navigated to
+  useEffect(() => {
+    if (location.pathname === "/") {
+      refetchSummary(); // Refetch summary when entering the Dashboard page
+    }
+  }, [location.pathname, refetchSummary]); // Refetch whenever the location changes
 
   // Refetch data to update the dashboard
   const handleAddTransaction = () => {
