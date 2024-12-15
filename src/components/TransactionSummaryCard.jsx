@@ -1,13 +1,9 @@
 import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
+import "../styles/components/TransactionSummaryCard.css";
 
 function TransactionSummaryCard({ title, amount }) {
-  // Determine styles dynamically based on the card title
   const isExpense = title.toLowerCase().includes("expense");
-  const amountStyle = {
-    color: isExpense ? "red" : "green", // Red for expenses, Green for incomes
-    fontWeight: "bold",
-  };
 
   const formattedAmount = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -15,11 +11,11 @@ function TransactionSummaryCard({ title, amount }) {
   }).format(amount);
 
   return (
-    <Card className="mb-4">
+    <Card className="transaction-summary-card mb-4">
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text
-          style={amountStyle}
+          className={isExpense ? "expense" : "income"}
           aria-label={`${title} is ${formattedAmount}`}
         >
           {formattedAmount}
