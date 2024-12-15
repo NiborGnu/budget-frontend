@@ -1,0 +1,9 @@
+.transaction-summary-card .expense {
+  color: red;
+  font-weight: bold;
+}
+
+.transaction-summary-card .income {
+  color: green;
+  font-weight: bold;
+}
