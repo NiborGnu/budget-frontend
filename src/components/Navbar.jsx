@@ -40,6 +40,26 @@ const Navbar = () => {
 
   const toggleNavbar = () => setIsOpen(!isOpen);
 
+  const closeNavbar = () => setIsOpen(false);
+
+  const handleClickOutside = (e) => {
+    if (
+      !e.target.closest(".navbar-collapse") &&
+      !e.target.closest(".navbar-toggler")
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
   const isActive = (path) => location.pathname === path;
 
   if (loading) {
@@ -132,10 +152,11 @@ const Navbar = () => {
             aria-controls="navbarNav"
             aria-expanded={isOpen ? "true" : "false"}
             aria-label="Toggle navigation"
+            style={{ marginLeft: "10px" }}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <Collapse isOpen={isOpen}>
+          <Collapse isOpen={isOpen} className="navbar-collapse">
             <ul className="navbar-nav">
               {isLoggedIn ? (
                 <>
@@ -143,6 +164,7 @@ const Navbar = () => {
                     <Link
                       to="/"
                       className={`nav-link ${isActive("/") ? "active" : ""}`}
+                      onClick={closeNavbar}
                     >
                       Dashboard
                     </Link>
@@ -153,6 +175,7 @@ const Navbar = () => {
                       className={`nav-link ${
                         isActive("/transactions") ? "active" : ""
                       }`}
+                      onClick={closeNavbar}
                     >
                       Transactions
                     </Link>
@@ -163,6 +186,7 @@ const Navbar = () => {
                       className={`nav-link ${
                         isActive("/budgets") ? "active" : ""
                       }`}
+                      onClick={closeNavbar}
                     >
                       Budgets
                     </Link>
@@ -173,11 +197,12 @@ const Navbar = () => {
                       className={`nav-link ${
                         isActive("/profile") ? "active" : ""
                       }`}
+                      onClick={closeNavbar}
                     >
                       Profile
                     </Link>
                   </li>
-                  <li className="nav-item ml-auto">
+                  <li className="nav-item">
                     <Logout />
                   </li>
                 </>
@@ -189,6 +214,7 @@ const Navbar = () => {
                       className={`nav-link ${
                         isActive("/register") ? "active" : ""
                       }`}
+                      onClick={closeNavbar}
                     >
                       Register
                     </Link>
@@ -199,6 +225,7 @@ const Navbar = () => {
                       className={`nav-link ${
                         isActive("/login") ? "active" : ""
                       }`}
+                      onClick={closeNavbar}
                     >
                       Login
                     </Link>
