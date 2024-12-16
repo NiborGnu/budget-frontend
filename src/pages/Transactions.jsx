@@ -24,7 +24,7 @@ function Transactions() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [transactionToDelete, setTransactionToDelete] = useState(null);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [selectedTab, setSelectedTab] = useState("expenses"); // New state for selecting tab
+  const [selectedTab, setSelectedTab] = useState("expenses");
   const { alert, showAlert, hideAlert } = useAlert();
 
   const {
