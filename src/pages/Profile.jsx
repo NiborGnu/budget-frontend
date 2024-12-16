@@ -38,6 +38,10 @@ const UserProfile = () => {
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [sameAsOldPassword, setSameAsOldPassword] = useState(false);
 
+  // Delete Profile Modal States
+  const [showDeleteProfileModal, setShowDeleteProfileModal] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+
   // Show password toggle state for each field
   const [passwordVisibility, setPasswordVisibility] = useState({
     old_password: false,
@@ -154,6 +158,29 @@ const UserProfile = () => {
     }
   };
 
+  const handleDeleteProfile = async () => {
+    try {
+      // Call the API to delete the profile
+      const response = await apiClient.delete("/users/delete-profile/");
+
+      if (response.status === 200) {
+        // Remove tokens from local storage to log the user out
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        // Show success message
+        showAlert("Profile deleted successfully.", "success");
+
+        // Redirect the user to the login page
+        window.location.href = "/login"; // Adjust redirection as needed
+      }
+    } catch (err) {
+      setDeleteError(err.response?.data?.detail || "Error deleting profile.");
+    } finally {
+      setShowDeleteProfileModal(false);
+    }
+  };
+
   const closeEditProfileModal = () => {
     setShowEditProfileModal(false);
     setFormData({
@@ -174,6 +201,11 @@ const UserProfile = () => {
     setPasswordMismatch(false);
     setSameAsOldPassword(false);
     setPasswordError("");
+  };
+
+  const closeDeleteProfileModal = () => {
+    setShowDeleteProfileModal(false);
+    setDeleteError("");
   };
 
   const togglePasswordVisibility = (field) => {
@@ -224,9 +256,16 @@ const UserProfile = () => {
           <Button
             variant="secondary"
             onClick={handlePasswordChange}
-            className="btn btn-secondary"
+            className="btn btn-secondary me-3"
           >
             Change Password
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => setShowDeleteProfileModal(true)}
+            className="btn btn-danger"
+          >
+            Delete Profile
           </Button>
         </Col>
       </Row>
@@ -288,7 +327,7 @@ const UserProfile = () => {
             <Button
               variant="secondary"
               onClick={closeEditProfileModal}
-              className="btn btn-secondary"
+              className="ms-2"
             >
               Cancel
             </Button>
@@ -303,65 +342,124 @@ const UserProfile = () => {
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handlePasswordSubmit}>
-            {Object.keys(passwordForm).map((field) => (
-              <Form.Group className="mb-3" key={field}>
-                <Form.Label htmlFor={field}>
-                  {field
-                    .replace("_", " ")
-                    .replace(/\b\w/g, (char) => char.toUpperCase())}
-                </Form.Label>
-                <div className="position-relative">
-                  <Form.Control
-                    type={passwordVisibility[field] ? "text" : "password"}
-                    id={field}
-                    name={field}
-                    value={passwordForm[field]}
-                    onChange={handlePasswordInputChange}
-                    required
-                    autoComplete={
-                      field === "old_password"
-                        ? "current-password"
-                        : "new-password"
-                    }
-                  />
-                  <span
-                    onClick={() => togglePasswordVisibility(field)}
-                    className="password-visibility-toggle"
-                  >
-                    {passwordVisibility[field] ? <FaEyeSlash /> : <FaEye />}
-                  </span>
-                </div>
-              </Form.Group>
-            ))}
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="old_password">Old Password</Form.Label>
+              <div className="d-flex align-items-center">
+                <Form.Control
+                  type={passwordVisibility.old_password ? "text" : "password"}
+                  id="old_password"
+                  name="old_password"
+                  value={passwordForm.old_password}
+                  onChange={handlePasswordInputChange}
+                  required
+                />
+                <Button
+                  variant="link"
+                  onClick={() => togglePasswordVisibility("old_password")}
+                  className="ms-2"
+                >
+                  {passwordVisibility.old_password ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="new_password">New Password</Form.Label>
+              <div className="d-flex align-items-center">
+                <Form.Control
+                  type={passwordVisibility.new_password ? "text" : "password"}
+                  id="new_password"
+                  name="new_password"
+                  value={passwordForm.new_password}
+                  onChange={handlePasswordInputChange}
+                  required
+                />
+                <Button
+                  variant="link"
+                  onClick={() => togglePasswordVisibility("new_password")}
+                  className="ms-2"
+                >
+                  {passwordVisibility.new_password ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="confirm_password">
+                Confirm Password
+              </Form.Label>
+              <div className="d-flex align-items-center">
+                <Form.Control
+                  type={
+                    passwordVisibility.confirm_password ? "text" : "password"
+                  }
+                  id="confirm_password"
+                  name="confirm_password"
+                  value={passwordForm.confirm_password}
+                  onChange={handlePasswordInputChange}
+                  required
+                />
+                <Button
+                  variant="link"
+                  onClick={() => togglePasswordVisibility("confirm_password")}
+                  className="ms-2"
+                >
+                  {passwordVisibility.confirm_password ? (
+                    <FaEyeSlash />
+                  ) : (
+                    <FaEye />
+                  )}
+                </Button>
+              </div>
+            </Form.Group>
             {passwordMismatch && (
               <p className="error text-danger">Passwords do not match.</p>
             )}
             {sameAsOldPassword && (
               <p className="error text-danger">
-                New password cannot be the same as the old password.
+                New password cannot be the same as the old one.
               </p>
             )}
-            {passwordError && <p className="error">{passwordError}</p>}
+            {passwordError && (
+              <p className="error text-danger">{passwordError}</p>
+            )}
             <Button
               type="submit"
               disabled={
-                passwordMismatch ||
-                sameAsOldPassword ||
-                !passwordForm.new_password ||
-                !passwordForm.old_password
+                loading ||
+                passwordForm.new_password !== passwordForm.confirm_password ||
+                passwordForm.old_password === passwordForm.new_password
               }
               className="btn btn-primary"
             >
-              {passwordError ? "Try Again" : "Change Password"}
+              {loading ? <LoadingIndicator size="sm" /> : "Save"}
             </Button>{" "}
             <Button
               variant="secondary"
               onClick={closePasswordModal}
-              className="btn btn-secondary"
+              className="ms-2"
             >
               Cancel
             </Button>
           </form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Delete Profile Modal */}
+      <Modal show={showDeleteProfileModal} onHide={closeDeleteProfileModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="text-danger">
+            Are you sure you want to delete your profile? This action cannot be
+            undone.
+          </p>
+          {deleteError && <p className="error text-danger">{deleteError}</p>}
+          <Button variant="danger" onClick={handleDeleteProfile}>
+            Delete Profile
+          </Button>{" "}
+          <Button variant="secondary" onClick={closeDeleteProfileModal}>
+            Cancel
+          </Button>
         </Modal.Body>
       </Modal>
     </Container>
