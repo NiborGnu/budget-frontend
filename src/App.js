@@ -9,6 +9,7 @@ import Transactions from "./pages/Transactions";
 import Budgets from "./pages/Budgets";
 import UserProfile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -22,8 +23,22 @@ const App = () => {
         <div className="content-wrapper">
           {/* Content wrapper to handle the layout */}
           <Routes>
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <RegisterPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
             {/* Protect the profile route */}
             <Route
               path="/"
