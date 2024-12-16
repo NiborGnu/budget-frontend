@@ -11,37 +11,29 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleLoginSuccess = (event) => {
-      if (event.detail === true) {
-        setIsLoggedIn(true);
-      }
+    const checkLoginState = () => {
+      const token = localStorage.getItem("access_token");
+      setIsLoggedIn(!!token);
+      setLoading(false);
     };
 
-    const handleLogoutSuccess = (event) => {
-      if (event.detail === true) {
-        setIsLoggedIn(false);
-      }
-    };
+    // Check login state initially
+    checkLoginState();
 
-    window.addEventListener("loginSuccess", handleLoginSuccess);
-    window.addEventListener("logoutSuccess", handleLogoutSuccess);
+    // Listen for login/logout events
+    const handleLoginEvent = () => checkLoginState();
+
+    window.addEventListener("loginSuccess", handleLoginEvent);
+    window.addEventListener("logoutSuccess", handleLoginEvent);
 
     return () => {
-      window.removeEventListener("loginSuccess", handleLoginSuccess);
-      window.removeEventListener("logoutSuccess", handleLogoutSuccess);
+      window.removeEventListener("loginSuccess", handleLoginEvent);
+      window.removeEventListener("logoutSuccess", handleLoginEvent);
     };
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    setIsLoggedIn(!!token);
-    setLoading(false);
   }, []);
 
   const toggleNavbar = () => setIsOpen(!isOpen);
-
   const closeNavbar = () => setIsOpen(false);
-
   const handleClickOutside = (e) => {
     if (
       !e.target.closest(".navbar-collapse") &&
@@ -59,7 +51,6 @@ const Navbar = () => {
     }
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
-
   const isActive = (path) => location.pathname === path;
 
   if (loading) {
