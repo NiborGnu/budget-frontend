@@ -24,6 +24,23 @@ The Budget project welcomes users to try and empower themself to take control of
   - [Tools](#tools)
   - [Languages](#languages)
   - [Frameworks & Libraries](#frameworks-and-libraries)
+- [Testing](#testing)
+  - [Validation](#validation)
+  - [Lighthouse Test](#lighthouse)
+  - [Browser Test](#browser-test)
+  - [Wave](#wave)
+  - [Bugs](#bugs)
+- [Setup and deployment](#setup-and-deployment)
+  - [Create Repository](#create-repository)
+  - [Version Control](#version-control)
+  - [Deployment to Heroku](#deployment)
+  - [Clone and Fork](#clone-and-fork)
+- [Documentation](#documentation)
+  - [Project documentation](#project-documentation)
+- [Credits](#credits)
+  - [Content](#content)
+  - [Media](#media)
+  - [Thank You](#thank-you)
 
 ## <a id="introduction">Introduction</a>
 
@@ -475,3 +492,253 @@ All links and forms have been tested on mobile and works
 - **Web Vitals 2.1.4**: A library for measuring key performance metrics in React apps to ensure high-quality user experiences.
 
 </details>
+
+## <a id="testing">Testing</a>
+
+Manual testing were preformed. The results are shown here
+[Test](TEST.md)
+
+### <a id="validation">Validation</a>
+
+- The React code was validated using ESLint. You can view the results here.
+  ![ESLint](documentation/eslint-validate.png)
+
+- The HTML code was validated with https://jigsaw.w3.org/css-validator/.
+
+<details>
+<summary>Click to show HTML validation</summary>
+
+![alt text](documentation/html-validate.png)
+Note: During the validation of the index.html file, there are some warnings related to the usage of %PUBLIC_URL%. This placeholder is used in React applications created with Create React App (CRA) to correctly reference resources (such as icons and manifests) from the public directory. These warnings do not affect the functionality of the application and are resolved when the app is built for production, as %PUBLIC_URL% is replaced with the correct path.
+
+</details>
+</br>
+
+- The CSS code was validated with https://jigsaw.w3.org/css-validator/#validate_by_input All the results looked like this:
+<details>
+<summary>Click to show CSS validation</summary>
+
+![CSS](documentation/css-validate.png)
+
+</details>
+
+### <a id="lighthouse">Lighthouse Test</a>
+
+Lighthouse test was made for a number of pages with the following results:
+
+<details>
+<summary>Click to show Homes Lighthouse test</summary>
+
+![Home](documentation/lighthouse/lighthouse-dashbord.png)
+
+</details>
+<details>
+<summary>Click to show Sign Up Lighthouse test</summary>
+
+![Sign Up](documentation/lighthouse/lighthouse-sign-up.png)
+
+</details>
+
+<details>
+<summary>Click to show Sign In Lighthouse test</summary>
+
+![Sign In](documentation/lighthouse/lighthouse-login.png)
+
+</details>
+<details>
+<summary>Click to show Transacations Lighthouse test</summary>
+
+![Transacation](documentation/lighthouse/lighthouse-transactions.png)
+
+</details>
+<details>
+<summary>Click to show Budgets Lighthouse test</summary>
+
+![Budgets](documentation/lighthouse/lighthouse-budgets.png)
+
+</details>
+<details>
+<summary>Click to show Profiles Lighthouse test</summary>
+
+![Profile](documentation/lighthouse/lighthouse-profile.png)
+
+</details>
+
+### <a id="browser-test"> Browser Test </a>
+
+I tested the application on following browsers:
+| **Browser** | **Operating System** | **Result** |
+|--------------------|----------------------|--------------------|
+| Google Chrome | macOS Sonoma | Passed |
+| Mozilla Firefox | Windows 11 | Passed |
+| Microsoft Edge | Windows 11 | Passed |
+| Mozilla Firefox | Android 14 | Passed |
+| Mozilla Firefox | Android 14 | Passed |
+| Opera | Android 14 | Passed |
+| Safari | Android 14 | Passed |
+
+### <a id="wave">Wave</a>
+
+I tested the home page with wave. This is the result:
+
+ <details>
+<summary>Click to show Wave</summary>
+
+![Wave](documentation/wave/wave.png)
+
+</details>
+
+### <a id="bugs">Bugs</a>
+
+The bugs are shown in the [Kanban](https://github.com/users/JorgenDIF/projects/7) board
+
+## <a id="setup-and-deployment">Setup and Deployment</a>
+
+### <a id="create-repository">Create Repository</a>
+
+Step-by-step guide on creating a new repository from the Gitpod Full Template by Code Institute.
+
+<details>
+<summary>Click to expand</summary>
+
+**Log in to GitHub:**
+
+1. Open your web browser and navigate to GitHub.
+2. If you are not already logged in, enter your GitHub username and password to log in.
+
+**Access the Gitpod Full Template:**
+
+1. Go directly to the Gitpod Full Template repository.
+
+**Create a New Repository Using the Template:**
+
+1. On the template repository page, look for the green button that says "Use this template". Click on this button.
+2. You will be redirected to the "Create a new repository from gitpod-full-template" page.
+
+**Configure Your New Repository:**
+
+1. Repository name: Enter a name for your new repository.
+2. Repository description (optional): Provide a brief description of your repository.
+3. Privacy settings: Choose whether the repository should be Public (anyone can see this repository) or Private (you choose who can see this repository).
+4. Leave the "Include all branches" checkbox unchecked if you just need the main branch; check it if you need all branches from the template.
+
+**Create the Repository from the Template:**
+
+1. Click the "Create repository from template" button to create your new repository with the contents of the Gitpod Full Template.
+
+**Access Your New Repository:**
+
+1. Once the repository is created, you will be redirected to your new repository page on GitHub.
+</details>
+
+### <a id="version-control">Initialize in VS Code</a>
+
+<details>
+<summary>Version Control</summary>
+<br>
+The site was created using the Gitpod editor and pushed to github to the remote repository ‘pixavibe-frontend’.
+The following git commands were used throughout development to push code to the remote repo:
+
+- `git add <file>` - This command was used to add the file(s) to the staging area before they are committed.
+- `git commit -m “commit message”` - This command was used to commit changes to the local repository queue ready for the final step.
+- `git push` - This command was used to push all committed code to the remote repository on github.
+</details>
+
+### <a id="deployment">Deployment to Heroku</a>
+
+<details>
+ <summary>To deploy the project to Heroku</summary>
+ 
+ <br>
+
+**Preparing the Application**
+
+- Create and add the 'Procfile' to your application's root directory `echo web: node index.js > Procfile`. Heroku relies on this file to determine how to run your application, ensuring the correct setup of your web server. Use commands like web: `gunicorn PROJ_NAME.wsgi` in the 'Procfile' to instruct Heroku on starting your web server with Gunicorn
+- Ensure you have a requirements.txt file listing all project dependencies.
+- Set up necessary configuration variables in Heroku setting tab > Config Vars (eg. SECRET_KEY, DATABASE_URL, etc.).
+- In your app's 'settings.py' add Heroku to ALLOWED_HOSTS
+
+**Initial set-up**
+
+- Sign up for a [Heroku](https://heroku.com/) account at Heroku's website.
+- Download and install the Heroku Command Line Interface (CLI) to interact with Heroku from your local machine.
+- Or use Heroku Web interface.
+
+**Create Heroku App**
+
+- Sign in or sign up to [Heroku](https://heroku.com/).
+- Click the button that says "Create new app."
+- Enter a unique app name.
+- Choose your region from the dropdown menu.
+- Click the "Create app" button.
+- Scroll further down on the page, select Add Buildpack. The buildpacks will install further dependencies that are not included in the 'requirements.txt'. <br>
+  It's crucial to arrange the build packs correctly! First, choose Python and then Node.js. If they're not in this sequence, you can reorder them by dragging.
+
+**Deployment**
+
+- Deploy by either push your code to Heroku or by connecting your GitHub repository to Heroku or using the Heroku CLI to deploy your application.
+- (if applicable) Run database migrations using the Heroku CLI.
+- For deploying this project, we're using GitHub as our method. After choosing GitHub, make sure to confirm the connection. Then, search for your repository name and once Heroku finds your repository - click "connect"
+- Scroll down to the section "Automatic Deploys".
+- Click "Enable automatic deploys" or choose "Deploy branch" and manually deploy.
+- Click "Deploy branch" wait for the app to be built. Once this is done, a message should appear letting us know that the app was successfully deployed.
+- Click the button "View" to see the app.
+
+**Final Steps**
+
+- Enable the Web Dyno, make sure the web dyno is up and running after deployment.
+- Open your application from the Heroku dashboard or using the CLI command heroku open.
+</details>
+
+### <a id="clone-and-fork">Clone and Fork</a>
+
+<details>
+ <summary>To clone and fork on Github</summary>
+
+- How to clone a repository on GitHub:(Source: GitHub)
+
+1. Navigate to GitHub
+2. In the dropdown menu, choose "clone repository".
+3. Click the tab that corresponds to the location of the repository you want to clone. You can also click URL to manually enter the repository location.
+4. From the list of repositories, click the repository you want to clone.
+5. To select the local directory into which you want to clone the repository, next to the "Local Path" field, click "Choose", and navigate to the directory.
+6. At the bottom of the "Clone a Repository" window, click Clone.
+
+- How to fork a repository on GitHub:
+
+1. At the bottom of the "Clone a Repository" window, click Clone.
+2. Click the tab that corresponds to the location of the repository you want to clone. You can also click URL to manually enter the repository location.
+3. From the list of repositories, click the repository you want to clone.
+4. To select the local directory into which you want to clone the repository, next to the "Local Path" field, click Choose... and navigate to the directory.
+5. At the bottom of the "Clone a Repository" window, click Clone.
+6. Read the information in the "How are you planning to use this fork?" window.
+   If you plan to use this fork for contributing to the original upstream repository, click To contribute to the parent project.
+   If you plan to use this fork for a project not connected to the upstream, click For my own purposes.
+7. Click Continue.
+   You can read extensively on how to clone or fork a repository [here](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop)
+
+</details>
+
+## <a id="credits">Credits</a>
+
+### <a id="content">Content</a>
+
+- This project was developed by the Moments Walkthrough project from Code Instiute and buildt using later generation.
+- Inspiration and learning about React also came from [Net Ninja](https://www.youtube.com/watch?v=j942wKiXFu8)
+- This Tutorial taught me about Postman testing [Postman](https://www.youtube.com/watch?v=cGn_LTFCif0&list=PLhW3qG5bs-L9P22XSnRe4suiWL4acXG-g)
+- This tutorial showed me more about Django Rest Framework [Django REST Framework](https://www.youtube.com/watch?v=zpz5OeNKUug&list=PLx-q4INfd95FWHy9M3Gt6NkUGR2R2yqT8)
+- [React](https://react.dev/learn) Also learned alot from here
+- [Django Rest framework](https://www.django-rest-framework.org/) Learned alot from here
+- Bootstrap was used across the project [Bootstrap documentation](https://getbootstrap.com/).
+- I referred to the README structure and documentation from the [Pixavibe Project](https://github.com/JaqiKal/pixavibe-frontend/blob/main/README.md) as an excellent example of clear, detailed project documentation, and it served as inspiration for formatting my own. Additionally, I borrowed some sections related to deployment from that README.
+
+- For translation from swedish to english I somtetimes used Chat GPT from OpenAI
+
+### <a id="thank-you">Thank You</a>
+
+- A Big thank you to my mentor Juliia for the support and help along the way
+- My Other half and family for the love and support
+- The slack community and mainly the Swedish Channel.
+- Tutor Support at Code Institute for amazing help and support
+
+## [Back to Table of Content](#table-of-content)
