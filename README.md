@@ -11,6 +11,12 @@ The Budget project welcomes users to try and empower themself to take control of
   - [The Structure](#the-structure)
   - [The Skeleton](#the-skeleton)
   - [The Surface](#the-surface)
+- [User Stories](#user-stories)
+- [Project Overview](#project-overview)
+  - [Learning Objectives](#learning-objectives)
+  - [Assignment Requirements](#assignment-requirements)
+  - [Self-Assessment](#self-assessment)
+  - [Reusable Components](#reusable-components)
 
 ## <a id="introduction">Introduction</a>
 
@@ -263,3 +269,107 @@ These choices combine to create a simple, welcoming, and easy-to-navigate interf
 These design elements are carefully selected to create a peaceful, intuitive, and emotionally engaging environment for users, aligning with the platform’s goal of fostering safe, meaningful emotional expression.
 
 </details>
+
+## <a id="user-stories">User Stories</a>
+
+<details>
+# User Stories
+
+| Feature                                  | User Story                                                                                                                                                                              | Acceptance Criteria                                                                                                                                                                                                                                                         |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **User Backend**                         | As a User, I want to Register, login, logout and view, edit, delete my profile so that I can make an account and create my budget.                                                      | 1. Registration page with sign-up form. <br> 2. Login page with form for credentials. <br> 3. Profile page displaying user's information. <br> 4. Edit profile page for updating user details. <br> 5. Option to delete the profile. <br> 6. Password update functionality. |
+| **Transactions Backend**                 | As a User, I want to Create, edit, view and delete transactions so that I can keep track of my transactions.                                                                            | 1. A form for creating new transactions. <br> 2. A page to view all transactions. <br> 3. An edit form for updating transactions. <br> 4. A delete option for removing transactions.                                                                                        |
+| **Budget Backend**                       | As a User, I want to Create, edit, view and delete budgets so that I can keep track of my budget.                                                                                       | 1. A form for creating a new budget. <br> 2. A page to view budgets. <br> 3. An edit form for modifying budgets. <br> 4. A delete option for removing budgets.                                                                                                              |
+| **Categories and Subcategories Backend** | As a user/admin, I want to be able to use categories for my budgets and categories/subcategories for my transactions so that I can sort them and find what I'm looking for more easily. | 1. Option to create categories and subcategories for transactions and budgets. <br> 2. View categories for transactions and budgets. <br> 3. Only admins can edit or delete categories/subcategories.                                                                       |
+| **Login/Register**                       | As a user, I want to register and login so that I can keep track of my transactions.                                                                                                    | 1. A login page where users can input their credentials. <br> 2. A register page where users can create an account.                                                                                                                                                         |
+| **Dashboard**                            | As a user, I want to see an overview of my latest transactions and budgets so that I can keep myself up to date.                                                                        | 1. A dashboard page displays the latest transactions and budgets. <br> 2. The dashboard provides an overview of user activity.                                                                                                                                              |
+| **Transactions**                         | As a user, I want to see, create, update, delete, sort, and search for my transactions so that I can keep track of my transactions.                                                     | 1. A transactions page to view all transactions. <br> 2. Ability to create, update, delete transactions. <br> 3. Sorting and searching options for transactions.                                                                                                            |
+| **Budgets**                              | As a user, I want to be able to create, edit, view and delete budgets so that I can see what I have for the specific thing.                                                             | 1. A budget page to view all budgets. <br> 2. Ability to create, edit, and delete budgets.                                                                                                                                                                                  |
+|                                          |
+
+</details>
+
+## <a id="project-overview">Project Overview</a>
+
+### <a id="learning-objectives">Learning Objectives</a>
+
+Learning Objectives
+
+This project focuses on achieving the following learning and development goals:
+
+<details>
+<summary>Click to show Learning objectives</summary>
+
+1. Mastery of Full-Stack Development: Build a solid foundation in both frontend (React, Bootstrap) and backend (Django REST Framework) technologies, ensuring seamless interaction between client and server-side functionalities.
+2. Proficiency in API Consumption: Learn to effectively consume and integrate APIs in the frontend, leveraging React for dynamic user interactions.
+3. Responsive Web Design: Ensure the application adjusts to different device screen sizes using Bootstrap, providing a smooth user experience across all platforms.
+4. Component Reusability: Develop a modular and maintainable codebase by creating reusable components and separating logic within the application.
+5. Project Management and Version Control: Employ Git and GitHub for efficient version control and task tracking throughout the project lifecycle.
+6. Security and Best Practices: Focus on securing the application, including API key management, authentication, and user access control.
+7. Testing and Deployment: Engage in manual and automated testing to ensure the application is free of bugs and issues before deployment. Additionally, deploy the application to a cloud platform like Heroku for real-world accessibility.
+
+</details>
+
+### <a id="assignment-requirements">Assignment Requirements</a>
+
+Assignment Requirements
+
+A breakdown of the essential requirements for the project, as outlined by the educational curriculum:
+
+<details>
+<summary>Click to show Assignment Requirements </summary>
+
+1. Full-Stack Web Application: Develop a functional web application that allows users to create, edit, and interact with transactions, budgets and profiles.
+2. User Authentication: Implement secure user authentication using Django REST Framework and React, allowing users to register, sign in, and manage their profiles.
+3. API-Driven Development: Build a comprehensive REST API for transactions, budgets and profile management, ensuring proper CRUD functionality and data validation.
+4. Responsive Design: Ensure that the frontend adapts smoothly across different screen sizes using Bootstrap and costum css for a responsive and accessible UI.
+5. Interactive User Experience: Design an intuitive and user-friendly interface where users can interact with the application’s features (e.g., transactions, budgets) in real time.
+6. Comprehensive Documentation: Document the project thoroughly, including the API structure, frontend and backend setup, and deployment process in the README files.
+7. Version Control and Commit Messages: Use Git for source control, ensuring consistent and meaningful commit messages to track the development process.
+8. Manual Testing and User Feedback: Implement thorough manual testing across different browsers and platforms, and gather feedback to refine the application.
+
+</details>
+
+### <a id="self-assessment">Self-Assessment</a>
+
+Self-Assessment
+
+This section provides an evaluation of the project development process, including challenges faced, lessons learned, and areas for improvement.
+
+<details>
+<summary>Click to show Self-Assessment </summary>
+
+1. Learning Reflection: This project has greatly enhanced my understanding of full-stack development, particularly with React on the frontend and Django REST Framework on the backend. Implementing the API and integrating it with the React components was a rewarding challenge.
+   - Highlights: One of the most valuable lessons was learning how to structure a React application with reusable components, especially in handling forms and API integration. This allowed me to build a more modular and scalable frontend. Moreover, the authentication process using Django REST Framework gave me hands-on experience with securing an application.
+   - Challenges: The most significant challenge was managing state in React, particularly when dealing with complex forms (e.g., transactions, budgets creation with category and subcategory fields). Additionally, configuring and securing API endpoints to ensure proper data validation required additional focus.
+   - Achievements: Successfully deploying the full application, with both frontend and backend seamlessly connected via the API, stands out as a major achievement. Implementing dynamic forms and secure user authentication added depth to the project.
+2. Areas for Improvement: While I have made progress, there are areas for improvement, especially in optimizing API performance and managing complex state in React.
+
+</details>
+
+### <a id="reusable-components">Reusable Components</a>
+
+This application features reusable components, which help maintain scalability and efficiency. Below are examples:
+
+<details>
+<summary>Click to show components</summary>
+
+#### NavBar Component:
+
+- Purpose: Provides navigation across the application, showing sign-in options, links to transactions, budgets, dashbord and profile.
+- Reusability: The NavBar is used across all app routes to maintain consistent navigation.
+- Props: Displays dynamic links based on user authentication status.
+
+#### Table component:
+
+- Purpose: Allow user to sort and search.
+- Reusability: Used in transactions, budgets.
+- Props: Functions like SortConfig, SearchQuery.
+
+#### Profile Component:
+
+- Purpose: Displays user profile details.
+- Reusability: Used on the profile page for all users.
+
+</details>
+</br>
