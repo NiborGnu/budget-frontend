@@ -17,6 +17,13 @@ The Budget project welcomes users to try and empower themself to take control of
   - [Assignment Requirements](#assignment-requirements)
   - [Self-Assessment](#self-assessment)
   - [Reusable Components](#reusable-components)
+- [Features](#features)
+  - [The Features](#gifs)
+  - [Future Features](#future-features)
+- [Technologies Used](#technologies-used)
+  - [Tools](#tools)
+  - [Languages](#languages)
+  - [Frameworks & Libraries](#frameworks-and-libraries)
 
 ## <a id="introduction">Introduction</a>
 
@@ -373,3 +380,98 @@ This application features reusable components, which help maintain scalability a
 
 </details>
 </br>
+
+## <a id="features">Features</a>
+
+### <a id="the-features">The Features</a>
+
+#### On pc
+
+All links and forms have been tested and working
+
+#### Mobile mode
+
+All links and forms have been tested on mobile and works
+
+### <a id="future-features">Future Features</a>
+
+<details>
+<summary>Click to show more Future Features</summary>
+
+1. Direct Messaging:
+   - Allow users to send and receive private messages between one another. This feature would include:
+   - A messaging interface for users to manage conversations.
+   - Notifications for new messages.
+   - The ability to share budgets with other users.
+2. Notifications System:
+   - Direct messages.
+
+</details>
+
+## <a id="technologies-used">Technologies Used</a>
+
+<details>
+<summary>Click to show technologies</summary>
+
+1. **React (v18.3.1)**: The core JavaScript library used to build the user interface of the app. React enables efficient creation of reusable, state-driven components and dynamic rendering.
+2. **React Router DOM (v7.0.2)**: A client-side routing library for React, facilitating smooth navigation between app pages while maintaining a single-page application structure.
+3. **Axios (v1.7.9)**: A promise-based HTTP client used for API calls. Axios simplifies data fetching, handles HTTP headers, and supports interceptors for token management in authentication workflows.
+4. **React Bootstrap (v2.10.6)**: A React implementation of Bootstrap components, enabling the use of pre-built, responsive UI elements to speed up development while maintaining consistency.
+5. **Bootstrap (v5.3.3)**: A popular CSS framework used for styling and layout. Bootstrap ensures responsive and modern designs with minimal effort.
+6. **Reactstrap (v9.2.3)**: Provides Bootstrap 5 components as React components, allowing for customizable and dynamic UI components.
+7. **React Icons (v5.4.0)**: A library of popular SVG-based icons, offering a wide selection of icons for easy integration into React components.
+8. **@tanstack/react-query (v5.62.7)**: A library for managing server state in React applications, simplifying data fetching, caching, and synchronization with APIs.
+9. **Prop-Types (v15.8.1)**: A type-checking library for React props, ensuring that components receive the expected types and improving reliability.
+10. **dotenv (v16.4.7)**: A library to load environment variables from a `.env` file, enabling secure configuration management.
+11. **Web Vitals (v2.1.4)**: A performance measurement library for monitoring and improving the quality of user experiences.
+12. **@testing-library/react (v13.4.0)**: A library for testing React components, focusing on testing user interactions and accessibility.
+13. **@testing-library/user-event (v13.5.0)**: Provides utilities to simulate user interactions in tests, such as clicks and typing.
+14. **@testing-library/jest-dom (v5.17.0)**: Custom matchers for asserting DOM elements in tests, improving test readability and accuracy.
+15. **ESLint (v8.57.1)**: A tool for identifying and fixing JavaScript code issues, ensuring adherence to coding standards and best practices.
+16. **TypeScript ESLint (v8.18.1)**: A set of ESLint plugins and configurations for linting TypeScript code in the project.
+17. **Git & GitHub**: Used for version control and collaborative development. Git tracks changes in the codebase, while GitHub serves as the cloud repository for storing, reviewing, and sharing the project's source code.
+
+</details>
+
+### <a id="languages">Languages</a>
+
+<details>
+<summary>Click to show languages</summary>
+
+1. HTML – used for structuring the content of the React components.
+2. CSS – used for styling the web application.
+3. JavaScript – the main programming language used with React to build dynamic web applications.
+
+</details>
+
+### <a id="tools">Tools</a>
+
+<details>
+<summary>Click to show Tools</summary>
+
+- **Visual Studio Code (VS Code)**: A lightweight and versatile code editor with robust features such as IntelliSense, debugging, and Git integration. Used initially during the project for its extensive extensions marketplace and customizable development environment.
+- **Git**: Used for version control, enabling tracking of changes and collaboration through branches and commits.
+- **GitHub**: A platform for hosting the project’s Git repositories, also used for managing tasks and issues.
+- **ESLint**: A tool used for identifying and fixing code quality and syntax errors in JavaScript, ensuring consistent code standards.
+- **Balsamiq**: Employed to design wireframes, helping plan the layout and user interface before development began.
+- **Heroku**: A cloud platform used to deploy the application, making it accessible online.
+
+</details>
+
+### <a id="frameworks-and-libraries">Frameworks & Libraries</a>
+
+<details>
+<summary>Click to show Frameworks</summary>
+
+- **React 18.3.1**: The core JavaScript library for building the app's user interface, focusing on creating reusable components and managing the UI efficiently.
+- **React Bootstrap 2.10.6**: Integrated for ready-made, responsive UI components based on the Bootstrap framework, ensuring a consistent design across the app.
+- **React Router DOM 7.0.2**: A client-side routing library for React, allowing seamless navigation between app pages without full page reloads.
+- **Axios 1.7.9**: A modern, promise-based HTTP client for interacting with REST APIs, used for fetching and sending data.
+- **Bootstrap 5.3.3**: A CSS framework used alongside React Bootstrap to ensure responsive and visually appealing designs.
+- **Prop-Types 15.8.1**: A library for type-checking React props, helping to enforce correct usage of components and improve code reliability.
+- **React Icons 5.4.0**: Provides a rich library of popular SVG icons for easy integration into React components.
+- **Reactstrap 9.2.3**: Adds Bootstrap 5 components as React components, allowing for dynamic, reusable UI elements.
+- **dotenv 16.4.7**: A library to load environment variables from a `.env` file, used for configuration management and secure storage of sensitive data.
+- **Web Vitals 2.1.4**: A library for measuring key performance metrics in React apps to ensure high-quality user experiences.
+
+</details>
